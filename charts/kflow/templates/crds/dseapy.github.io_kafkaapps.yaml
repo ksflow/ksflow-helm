@@ -2,7 +2,7 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: kafkaacls.dseapy.github.io
+  name: kafkaapps.dseapy.github.io
   annotations:
     {{- if .Values.crds.keep }}
     "helm.sh/resource-policy": keep
@@ -13,12 +13,12 @@ metadata:
 spec:
   group: dseapy.github.io
   names:
-    kind: KafkaACL
-    listKind: KafkaACLList
-    plural: kafkaacls
+    kind: KafkaApp
+    listKind: KafkaAppList
+    plural: kafkaapps
     shortNames:
-    - kacl
-    singular: kafkaacl
+    - kapp
+    singular: kafkaapp
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -27,21 +27,6 @@ spec:
       type: string
     - jsonPath: .status.message
       name: Message
-      type: string
-    - jsonPath: .status.user
-      name: User
-      type: string
-    - jsonPath: .status.topic
-      name: Topic
-      type: string
-    - jsonPath: .status.operation
-      name: Operation
-      type: string
-    - jsonPath: .status.permissionType
-      name: Permission
-      type: string
-    - jsonPath: .status.patternType
-      name: Pattern
       type: string
     - jsonPath: .metadata.creationTimestamp
       name: Age

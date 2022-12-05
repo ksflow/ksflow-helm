@@ -11,6 +11,8 @@ rules:
   resources:
   - kafkaacls
   - kafkaacls/finalizers
+  - kafkaapps
+  - kafkaapps/finalizers
   - kafkaschemas
   - kafkaschemas/finalizers
   - kafkatopics
@@ -34,6 +36,8 @@ rules:
   resources:
   - kafkaacls
   - kafkaacls/finalizers
+  - kafkaapps
+  - kafkaapps/finalizers
   - kafkaschemas
   - kafkaschemas/finalizers
   - kafkatopics
@@ -62,6 +66,8 @@ rules:
   resources:
   - kafkaacls
   - kafkaacls/finalizers
+  - kafkaapps
+  - kafkaapps/finalizers
   - kafkaschemas
   - kafkaschemas/finalizers
   - kafkatopics

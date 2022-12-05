@@ -17,55 +17,55 @@ spec:
     listKind: KafkaSchemaList
     plural: kafkaschemas
     shortNames:
-      - kschema
+    - kschema
     singular: kafkaschema
   scope: Namespaced
   versions:
-    - additionalPrinterColumns:
-      - jsonPath: .status.phase
-        name: Phase
-        type: string
-      - jsonPath: .status.message
-        name: Message
-        type: string
-      - jsonPath: .spec.format
-        name: Format
-        type: string
-      - jsonPath: .spec.compatibilityLevel
-        name: Compatibility
-        type: string
-      - jsonPath: .status.schemaVersion
-        name: Version
-        type: string
-      - jsonPath: .status.schemaID
-        name: ID
-        type: integer
-      - jsonPath: .metadata.creationTimestamp
-        name: Age
-        type: date
-      name: v1alpha1
-      schema:
-        openAPIV3Schema:
-          properties:
-            apiVersion:
-              type: string
-            kind:
-              type: string
-            metadata:
-              type: object
-            spec:
-              type: object
-              x-kubernetes-map-type: atomic
-              x-kubernetes-preserve-unknown-fields: true
-            status:
-              type: object
-              x-kubernetes-map-type: atomic
-              x-kubernetes-preserve-unknown-fields: true
-          required:
-            - metadata
-            - spec
-          type: object
-      served: true
-      storage: true
-      subresources: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.phase
+      name: Phase
+      type: string
+    - jsonPath: .status.message
+      name: Message
+      type: string
+    - jsonPath: .spec.format
+      name: Format
+      type: string
+    - jsonPath: .spec.compatibilityLevel
+      name: Compatibility
+      type: string
+    - jsonPath: .status.schemaVersion
+      name: Version
+      type: string
+    - jsonPath: .status.schemaID
+      name: ID
+      type: integer
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            type: string
+          kind:
+            type: string
+          metadata:
+            type: object
+          spec:
+            type: object
+            x-kubernetes-map-type: atomic
+            x-kubernetes-preserve-unknown-fields: true
+          status:
+            type: object
+            x-kubernetes-map-type: atomic
+            x-kubernetes-preserve-unknown-fields: true
+        required:
+        - metadata
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources: {}
 {{- end }}
