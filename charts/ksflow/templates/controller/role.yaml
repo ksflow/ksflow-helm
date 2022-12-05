@@ -11,7 +11,7 @@ metadata:
     {{- include "ksflow.labels" (dict "context" . "component" .Values.controller.name "name" .Values.controller.name) | nindent 4 }}
 rules:
 - apiGroups:
-  - dseapy.github.io
+  - ksflow.io
   resources:
   - kafkaacls
   - kafkaacls/status

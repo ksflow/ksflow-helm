@@ -6,7 +6,7 @@ metadata:
     {{- include "ksflow.labels" (dict "context" . "component" .Values.controller.name "name" "cm") | nindent 4 }}
 data:
   controller-config.yaml: |
-    apiVersion: dseapy.github.io/v1alpha1
+    apiVersion: ksflow.io/v1alpha1
     kind: KsflowConfig
     {{- if .Values.singleNamespace }}
     cacheNamespace: {{ .Release.Namespace | quote }}

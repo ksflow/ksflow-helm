@@ -56,7 +56,7 @@ controller:
     # -- Registry to use for the controller
     registry: docker.io
     # -- Registry to use for the controller
-    repository: dseapy/ksflow
+    repository: ksflow/ksflow
     # -- Image tag for the ksflow controller. Defaults to `.Values.images.tag`.
     tag: ""
 
