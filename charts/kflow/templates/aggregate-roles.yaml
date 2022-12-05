@@ -1,0 +1,80 @@
+{{- if .Values.createAggregateRoles }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ template "ksflow.fullname" . }}-view
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+rules:
+- apiGroups:
+  - dseapy.github.io
+  resources:
+  - kafkaacls
+  - kafkaacls/finalizers
+  - kafkaschemas
+  - kafkaschemas/finalizers
+  - kafkatopics
+  - kafkatopics/finalizers
+  - kafkausers
+  - kafkausers/finalizers
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ template "ksflow.fullname" . }}-edit
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+rules:
+- apiGroups:
+  - dseapy.github.io
+  resources:
+  - kafkaacls
+  - kafkaacls/finalizers
+  - kafkaschemas
+  - kafkaschemas/finalizers
+  - kafkatopics
+  - kafkatopics/finalizers
+  - kafkausers
+  - kafkausers/finalizers
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ template "ksflow.fullname" . }}-admin
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+rules:
+- apiGroups:
+  - dseapy.github.io
+  resources:
+  - kafkaacls
+  - kafkaacls/finalizers
+  - kafkaschemas
+  - kafkaschemas/finalizers
+  - kafkatopics
+  - kafkatopics/finalizers
+  - kafkausers
+  - kafkausers/finalizers
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+{{- end }}

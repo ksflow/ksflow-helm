@@ -1,0 +1,12 @@
+apiVersion: v2
+appVersion: v0.1.0
+name: ksflow
+description: A Helm chart for Ksflow
+type: application
+version: 0.1.0
+home: https://github.com/dseapy/ksflow-helm
+sources:
+- https://github.com/dseapy/ksflow
+maintainers:
+- name: dseapy
+  url: https://dseapy.github.io/

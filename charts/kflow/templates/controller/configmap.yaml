@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "ksflow.controller.fullname" . }}
+  labels:
+    {{- include "ksflow.labels" (dict "context" . "component" .Values.controller.name "name" "cm") | nindent 4 }}
+data:
+  controller-config.yaml: |
+    apiVersion: dseapy.github.io/v1alpha1
+    kind: KsflowConfig
+    {{- if .Values.singleNamespace }}
+    cacheNamespace: {{ .Release.Namespace | quote }}
+    {{- end }}
+    kafka:
+      topicPrefix: {{ .Values.kafka.topicPrefix | quote }}
+      configs:
+        {{- with .Values.kafka.configs.topic }}
+        topic:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.kafka.configs.producer }}
+        producer:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.kafka.configs.consumer }}
+        consumer:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.kafka.configs.admin }}
+        admin:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.kafka.configs.schemaRegistry }}
+        schemaRegistry:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}

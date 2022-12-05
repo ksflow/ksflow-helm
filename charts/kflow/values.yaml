@@ -1,0 +1,162 @@
+images:
+  # -- Common tag for Ksflow images. Defaults to `.Chart.AppVersion`.
+  tag: ""
+  # -- imagePullPolicy to apply to all containers
+  pullPolicy: Always
+  # -- Secrets with credentials to pull images from a private registry
+  pullSecrets: []
+  # - name: ksflow-pull-secret
+
+## Custom resource configuration
+crds:
+  # -- Install and upgrade CRDs
+  install: true
+  # -- Keep CRDs on chart uninstall
+  keep: true
+  # -- Annotations to be added to all CRDs
+  annotations: {}
+
+# -- Create clusterroles that extend existing clusterroles to interact with ksflow crds
+## Ref: https://kubernetes.io/docs/reference/access-authn-authz/rbac/#aggregated-clusterroles
+createAggregateRoles: true
+
+# -- String to partially override "ksflow.fullname" template
+nameOverride:
+
+# -- String to fully override "ksflow.fullname" template
+fullnameOverride:
+
+# -- Override the Kubernetes version, which is used to evaluate certain manifests
+kubeVersionOverride: ""
+
+# -- Restrict Ksflow to operate only in a single namespace (the namespace of the
+# Helm release) by applying Roles and RoleBindings instead of the Cluster
+# equivalents, and start the controller configured to watch the single namespace. Use it
+# in clusters with strict access policy.
+singleNamespace: false
+
+kafka:
+  # -- Prefix for all Kafka topics
+  topicPrefix: "ksflow"
+
+  configs:
+    # -- Ref: https://kafka.apache.org/documentation/#topicconfigs
+    topic: {}
+    # -- Ref: https://kafka.apache.org/documentation/#producerconfigs
+    producer: {}
+    # -- Ref: https://kafka.apache.org/documentation/#consumerconfigs
+    consumer: {}
+    # -- Ref: https://kafka.apache.org/documentation/#adminclientconfigs
+    admin: {}
+    # -- Ref: https://github.com/confluentinc/schema-registry/blob/3ef56384414e182bd8b724c4216d2d70e6eb7a24/schema-serializer/src/main/java/io/confluent/kafka/serializers/AbstractKafkaSchemaSerDeConfig.java
+    schemaRegistry: {}
+
+controller:
+  image:
+    # -- Registry to use for the controller
+    registry: docker.io
+    # -- Registry to use for the controller
+    repository: dseapy/ksflow
+    # -- Image tag for the ksflow controller. Defaults to `.Values.images.tag`.
+    tag: ""
+
+  rbac:
+    # -- Adds Role and RoleBinding for the controller.
+    create: true
+
+  # -- deploymentAnnotations is an optional map of annotations to be applied to the controller Deployment
+  deploymentAnnotations: {}
+  # -- podAnnotations is an optional map of annotations to be applied to the controller Pods
+  podAnnotations: {}
+  # -- Optional labels to add to the controller pods
+  podLabels: {}
+  # -- SecurityContext to set on the controller pods
+  podSecurityContext: {}
+  # -- the controller container's securityContext
+  # @default -- See [values.yaml]
+  securityContext:
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+  serviceAccount:
+    # -- Create a service account for the controller
+    create: true
+    # -- Service account name
+    name: ""
+    # -- Annotations applied to created service account
+    annotations: {}
+
+  # -- Controller name string
+  name: controller
+
+  # -- Service type of the controller Service
+  serviceType: ClusterIP
+  # -- Annotations to be applied to the controller Service
+  serviceAnnotations: {}
+  # -- Optional labels to add to the controller Service
+  serviceLabels: {}
+  # -- Source ranges to allow access to service from. Only applies to service type `LoadBalancer`
+  loadBalancerSourceRanges: []
+
+  # -- Resource limits and requests for the controller
+  resources: {}
+
+  # -- Configure liveness [probe] for the controller
+  # @default -- See [values.yaml]
+  livenessProbe:
+    httpGet:
+      port: 8081
+      path: /healthz
+    failureThreshold: 3
+    initialDelaySeconds: 30
+    periodSeconds: 30
+    timeoutSeconds: 10
+
+  # -- Extra environment variables to provide to the controller container
+  extraEnv: []
+  # - name: FOO
+  #   value: "bar"
+
+  # -- Extra arguments to be added to the controller
+  extraArgs: []
+  # -- Additional volume mounts to the controller main container
+  extraVolumeMounts: []
+  # -- Additional volumes to the controller pod
+  extraVolumes: []
+  # -- The number of controller pods to run
+  replicas: 1
+
+  pdb:
+    # -- Configure [Pod Disruption Budget] for the controller pods
+    enabled: false
+    # minAvailable: 1
+    # maxUnavailable: 1
+
+  # -- [Node selector]
+  nodeSelector:
+    kubernetes.io/os: linux
+  # -- [Tolerations] for use with node taints
+  tolerations: []
+  # -- Assign custom [affinity] rules
+  affinity: {}
+
+  # -- Assign custom [TopologySpreadConstraints] rules to the controller
+  ## Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/
+  ## If labelSelector is left out, it will default to the labelSelector configuration of the deployment
+  topologySpreadConstraints: []
+  # - maxSkew: 1
+  #   topologyKey: topology.kubernetes.io/zone
+  #   whenUnsatisfiable: DoNotSchedule
+
+  # -- Leverage a PriorityClass to ensure your pods survive resource shortages.
+  ## ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
+  priorityClassName: ""
+
+  # -- Extra containers to be added to the controller deployment
+  extraContainers: []
+
+  # -- Controller Manager configuration, ref: https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/config/v1alpha1#ControllerManagerConfigurationSpec
+  controllerManager: {}
