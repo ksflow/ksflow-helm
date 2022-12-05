@@ -1,3 +1,4 @@
+{{ /* This file was modified from https://github.com/argoproj/argo-helm/blob/34a33c967f83622b086de824b0e67c83360de791/charts/argo-workflows/templates/_helpers.tpl  (apache 2.0 license) */}}
 {{/* vim: set filetype=mustache: */}}
 
 {{/*
