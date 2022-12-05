@@ -1,12 +1,13 @@
 apiVersion: v2
 appVersion: v0.1.0
 name: ksflow
-description: A Helm chart for Ksflow
+description: Configuration management for Kafka-processing applications on Kubernetes
 type: application
 version: 0.1.0
-home: https://github.com/dseapy/ksflow-helm
+home: https://github.com/ksflow/ksflow
+icon: https://raw.githubusercontent.com/ksflow/ksflow/main/images/ksflow-logo-500x500-white.png
 sources:
-- https://github.com/dseapy/ksflow
+- https://github.com/ksflow/ksflow
 maintainers:
-- name: dseapy
-  url: https://dseapy.github.io/
+- name: David Seapy
+  url: https://ksflow.io/
