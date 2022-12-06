@@ -2,10 +2,24 @@
 {{/* vim: set filetype=mustache: */}}
 
 {{/*
+Create schema-registry name and version as used by the chart label.
+*/}}
+{{- define "ksflow.schemaRegistry.fullname" -}}
+{{- printf "%s-%s" (include "ksflow.fullname" .) .Values.schemaRegistry.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
 Create controller name and version as used by the chart label.
 */}}
 {{- define "ksflow.controller.fullname" -}}
 {{- printf "%s-%s" (include "ksflow.fullname" .) .Values.controller.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Create jks-password secret name and version as used by the chart label.
+*/}}
+{{- define "ksflow.jksPassword.fullname" -}}
+{{- printf "%s-jks-pwd" (include "ksflow.fullname" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
@@ -61,6 +75,17 @@ app.kubernetes.io/instance: {{ .context.Release.Name }}
 app.kubernetes.io/component: {{ .component }}
 {{- end }}
 {{- end }}
+
+{{/*
+Create the name of the controller service account to use
+*/}}
+{{- define "ksflow.schemaRegistryServiceAccountName" -}}
+{{- if .Values.controller.serviceAccount.create -}}
+    {{ default (include "ksflow.schemaRegistry.fullname" .) .Values.controller.serviceAccount.name }}
+{{- else -}}
+    {{ default "default" .Values.controller.serviceAccount.name }}
+{{- end -}}
+{{- end -}}
 
 {{/*
 Create the name of the controller service account to use

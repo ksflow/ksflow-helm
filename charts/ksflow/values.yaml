@@ -18,8 +18,7 @@ crds:
   # -- Annotations to be added to all CRDs
   annotations: {}
 
-# -- Create clusterroles that extend existing clusterroles to interact with ksflow crds
-## Ref: https://kubernetes.io/docs/reference/access-authn-authz/rbac/#aggregated-clusterroles
+# -- Create clusterroles that extend existing clusterroles to interact with ksflow crds (ref: [Aggregated ClusterRoles](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#aggregated-clusterroles))
 createAggregateRoles: true
 
 # -- String to partially override "ksflow.fullname" template
@@ -27,9 +26,6 @@ nameOverride:
 
 # -- String to fully override "ksflow.fullname" template
 fullnameOverride:
-
-# -- Override the Kubernetes version, which is used to evaluate certain manifests
-kubeVersionOverride: ""
 
 # -- Restrict Ksflow to operate only in a single namespace (the namespace of the
 # Helm release) by applying Roles and RoleBindings instead of the Cluster
@@ -42,15 +38,15 @@ kafka:
   topicPrefix: "ksflow"
 
   configs:
-    # -- Ref: https://kafka.apache.org/documentation/#topicconfigs
+    # -- [Topic Config](https://kafka.apache.org/documentation/#topicconfigs)
     topic: {}
-    # -- Ref: https://kafka.apache.org/documentation/#producerconfigs
+    # -- [Producer Config](https://kafka.apache.org/documentation/#producerconfigs)
     producer: {}
-    # -- Ref: https://kafka.apache.org/documentation/#consumerconfigs
+    # -- [Consumer Config](https://kafka.apache.org/documentation/#consumerconfigs)
     consumer: {}
-    # -- Ref: https://kafka.apache.org/documentation/#adminclientconfigs
+    # -- [Admin Client Config](https://kafka.apache.org/documentation/#adminclientconfigs)
     admin: {}
-    # -- Ref: https://github.com/confluentinc/schema-registry/blob/3ef56384414e182bd8b724c4216d2d70e6eb7a24/schema-serializer/src/main/java/io/confluent/kafka/serializers/AbstractKafkaSchemaSerDeConfig.java
+    # -- [Kafka Schema Serde Config](https://github.com/confluentinc/schema-registry/tree/v7.4.0-690/schema-serializer/src/main/java/io/confluent/kafka/serializers/AbstractKafkaSchemaSerDeConfig.java)
     schemaRegistry: {}
 
 controller:
@@ -82,7 +78,7 @@ controller:
     allowPrivilegeEscalation: false
     capabilities:
       drop:
-        - ALL
+      - ALL
   serviceAccount:
     # -- Create a service account for the controller
     create: true
@@ -93,15 +89,6 @@ controller:
 
   # -- Controller name string
   name: controller
-
-  # -- Service type of the controller Service
-  serviceType: ClusterIP
-  # -- Annotations to be applied to the controller Service
-  serviceAnnotations: {}
-  # -- Optional labels to add to the controller Service
-  serviceLabels: {}
-  # -- Source ranges to allow access to service from. Only applies to service type `LoadBalancer`
-  loadBalancerSourceRanges: []
 
   # -- Resource limits and requests for the controller
   resources: {}
@@ -145,20 +132,19 @@ controller:
   # -- Assign custom [affinity] rules
   affinity: {}
 
-  # -- Assign custom [TopologySpreadConstraints] rules to the controller
-  ## Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/
-  ## If labelSelector is left out, it will default to the labelSelector configuration of the deployment
+  # -- Assign custom [Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/)
+  # rules to the controller.
+  # If labelSelector is left out, it will default to the labelSelector configuration of the deployment
   topologySpreadConstraints: []
   # - maxSkew: 1
   #   topologyKey: topology.kubernetes.io/zone
   #   whenUnsatisfiable: DoNotSchedule
 
-  # -- Leverage a PriorityClass to ensure your pods survive resource shortages.
-  ## ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
+  # -- Leverage a PriorityClass to ensure your pods survive resource shortages (ref: [Pod Priority Preemption](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/))
   priorityClassName: ""
 
   # -- Extra containers to be added to the controller deployment
   extraContainers: []
 
-  # -- Controller Manager configuration, ref: https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/config/v1alpha1#ControllerManagerConfigurationSpec
+  # -- [Controller Manager configuration](https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/config/v1alpha1#ControllerManagerConfigurationSpec)
   controllerManager: {}
