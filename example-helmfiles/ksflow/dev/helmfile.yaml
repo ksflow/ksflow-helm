@@ -1,0 +1,38 @@
+repositories:
+- name: prometheus-community
+  url: https://prometheus-community.github.io/helm-charts
+- name: jetstack
+  url: https://charts.jetstack.io
+- name: bitnami
+  url: https://charts.bitnami.com/bitnami
+- name: kedacore
+  url: https://kedacore.github.io/charts
+releases:
+- name: cert-manager
+  namespace: cert-manager
+  createNamespace: true
+  chart: jetstack/cert-manager
+  version: v1.10.1
+  values:
+  - values/cert-manager.yaml
+- name: kube-prometheus-stack
+  namespace: monitoring
+  createNamespace: true
+  chart: prometheus-community/kube-prometheus-stack
+  version: 41.7.4
+  values:
+  - values/kube-prometheus-stack.yaml
+- name: keda
+  namespace: keda
+  createNamespace: true
+  chart: kedacore/keda
+  version: 2.8.2
+  values:
+  - values/keda.yaml
+- name: schema-registry-stack
+  namespace: kafka
+  createNamespace: true
+  chart: bitnami/schema-registry
+  version: 7.0.1
+  values:
+  - values/schema-registry-stack.yaml

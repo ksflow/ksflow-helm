@@ -1,0 +1,38 @@
+resources:
+  limits:
+    memory: 512Mi
+  requests:
+    cpu: 100m
+
+# TODO: more stuff
+
+extraDeploy:
+- apiVersion: cert-manager.io/v1
+  kind: ClusterIssuer
+  metadata:
+    name: kafka-selfsigned-ca-issuer
+  spec:
+    selfSigned: {}
+- apiVersion: cert-manager.io/v1
+  kind: Certificate
+  metadata:
+    name: kafka-selfsigned-ca
+    namespace: cert-manager
+  spec:
+    isCA: true
+    commonName: kafka-selfsigned-ca
+    secretName: kafka-selfsigned-ca-root-secret
+    privateKey:
+      algorithm: ECDSA
+      size: 256
+    issuerRef:
+      name: kafka-selfsigned-ca-issuer
+      kind: ClusterIssuer
+      group: cert-manager.io
+- apiVersion: cert-manager.io/v1
+  kind: ClusterIssuer
+  metadata:
+    name: kafka-cert-issuer
+  spec:
+    ca:
+      secretName: kafka-selfsigned-ca-root-secret

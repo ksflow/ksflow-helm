@@ -1,0 +1,23 @@
+resources:
+  requests:
+    cpu: 10m
+  limits:
+    memory: 64Mi
+  operator:
+    requests:
+      cpu: 10m
+    limits:
+      memory: 64Mi
+  metricServer:
+    requests:
+      cpu: 10m
+    limits:
+      memory: 64Mi
+
+prometheus:
+  metricServer:
+    podMonitor:
+      enabled: true
+  operator:
+    podMonitor:
+      enabled: true

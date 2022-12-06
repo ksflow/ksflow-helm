@@ -5,7 +5,7 @@ Helm chart for [ksflow](https://github.com/ksflow/ksflow).
 **This chart does not package all dependencies** since they are generally installed in other namespaces with tools like
 [argo-cd](https://github.com/argoproj/argo-cd), [flux](https://github.com/fluxcd/flux2), or [helmfile](https://github.com/helmfile/helmfile).
 
-[Example Helmfiles](#example-helmfiles) are provided below.
+Refer to the example [dev](../../example-helmfiles/ksflow/dev/helmfile.yaml) and [prod](../../example-helmfiles/ksflow/prod/helmfile.yaml) helmfiles for how to install.
 
 ## Parameters
 
@@ -38,11 +38,3 @@ Helm chart for [ksflow](https://github.com/ksflow/ksflow).
 | {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
   {{- end }}
 {{- end }}
-
-## Example Helmfiles
-```yaml
-# example for dev environment
-```
-```yaml
-# example for production environment
-```

@@ -5,7 +5,7 @@ Helm chart for [ksflow](https://github.com/ksflow/ksflow).
 **This chart does not package all dependencies** since they are generally installed in other namespaces with tools like
 [argo-cd](https://github.com/argoproj/argo-cd), [flux](https://github.com/fluxcd/flux2), or [helmfile](https://github.com/helmfile/helmfile).
 
-[Example Helmfiles](#example-helmfiles) are provided below.
+Refer to the example [dev](../../example-helmfiles/ksflow/dev/helmfile.yaml) and [prod](../../example-helmfiles/ksflow/prod/helmfile.yaml) helmfiles for how to install.
 
 ## Parameters
 
@@ -67,11 +67,3 @@ Helm chart for [ksflow](https://github.com/ksflow/ksflow).
 | controller.serviceAccount.name | string | `""` | Service account name |
 | controller.tolerations | list | `[]` | [Tolerations] for use with node taints |
 | controller.topologySpreadConstraints | list | `[]` | Assign custom [Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/) rules to the controller. If labelSelector is left out, it will default to the labelSelector configuration of the deployment |
-
-## Example Helmfiles
-```yaml
-# example for dev environment
-```
-```yaml
-# example for production environment
-```
