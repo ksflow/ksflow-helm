@@ -6,17 +6,22 @@ resources:
   limits:
     memory: 128Mi
 
+# Cleanup secrets when certificate is deleted
+# Don't approve every certificate request (ref: https://cert-manager.io/docs/projects/approver-policy/)
 extraArgs:
 - "--enable-certificate-owner-ref=true"
+- "--controllers='*\,-certificaterequests-approver'"
 
 webhook:
-  requests:
-    cpu: 10m
-  limits:
-    memory: 64Mi
+  resources:
+    requests:
+      cpu: 10m
+    limits:
+      memory: 64Mi
 
 cainjector:
-  requests:
-    cpu: 10m
-  limits:
-    memory: 64Mi
+  resources:
+    requests:
+      cpu: 10m
+    limits:
+      memory: 64Mi

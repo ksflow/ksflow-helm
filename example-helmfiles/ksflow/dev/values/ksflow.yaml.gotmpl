@@ -1,0 +1,72 @@
+extraObjects:
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    name: cloudflare-api-token
+  type: Opaque
+  stringData:
+    api-token: {{ requiredEnv "KSFLOW_CLOUDFLARE_API_TOKEN" | quote }}
+- apiVersion: cert-manager.io/v1
+  kind: Issuer
+  metadata:
+    name: letsencrypt-staging
+  spec:
+    acme:
+      server: https://acme-staging-v02.api.letsencrypt.org/directory
+      email: {{ requiredEnv "KSFLOW_EMAIL_ADDRESS" | quote }}
+      privateKeySecretRef:
+        name: letsencrypt-staging
+      solvers:
+      - dns01:
+          cloudflare:
+            email: {{ requiredEnv "KSFLOW_EMAIL_ADDRESS" | quote }}
+            apiTokenSecretRef:
+              name: cloudflare-api-token
+              key: api-token
+- apiVersion: cert-manager.io/v1
+  kind: Certificate
+  metadata:
+    name: ksflow-controller
+  spec:
+    secretName: ksflow-controller-cert
+    issuerRef:
+      name: letsencrypt-staging
+      kind: ClusterIssuer
+    commonName: {{ requiredEnv "KSFLOW_CONTROLLER_DOMAIN_NAME" | quote }}
+    dnsNames:
+    - {{ requiredEnv "KSFLOW_CONTROLLER_DOMAIN_NAME" | quote }}
+
+
+# TODO: use self-signed instead of stuff above, just comment it out in case someone else needs it too
+#apiVersion: cert-manager.io/v1
+#kind: Issuer
+#metadata:
+#  name: kafka-selfsigned-ca-issuer
+#spec:
+#  selfSigned: {}
+#---
+#apiVersion: cert-manager.io/v1
+#kind: Certificate
+#metadata:
+#  name: kafka-selfsigned-ca
+#  namespace: cert-manager
+#spec:
+#  isCA: true
+#  commonName: kafka-selfsigned-ca
+#  secretName: kafka-selfsigned-ca-root-secret
+#  privateKey:
+#    algorithm: ECDSA
+#    size: 256
+#  issuerRef:
+#    name: kafka-selfsigned-ca-issuer
+#    kind: ClusterIssuer
+#    group: cert-manager.io
+#
+#---
+#apiVersion: cert-manager.io/v1
+#kind: ClusterIssuer
+#metadata:
+#  name: kafka-cert-issuer
+#spec:
+#  ca:
+#    secretName: kafka-selfsigned-ca-root-secret

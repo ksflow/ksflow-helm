@@ -17,12 +17,12 @@ Refer to the example [dev](../../example-helmfiles/ksflow/dev/helmfile.yaml) and
 | crds.install | bool | `true` | Install and upgrade CRDs |
 | crds.keep | bool | `true` | Keep CRDs on chart uninstall |
 | createAggregateRoles | bool | `true` | Create clusterroles that extend existing clusterroles to interact with ksflow crds (ref: [Aggregated ClusterRoles](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#aggregated-clusterroles)) |
+| extraObjects | list | `[]` | Extra Kubernetes objects to be managed by the chart |
 | fullnameOverride | string | `nil` | String to fully override "ksflow.fullname" template |
 | images.pullPolicy | string | `"Always"` | imagePullPolicy to apply to all containers |
 | images.pullSecrets | list | `[]` | Secrets with credentials to pull images from a private registry |
 | images.tag | string | `""` | Common tag for Ksflow images. Defaults to `.Chart.AppVersion`. |
 | nameOverride | string | `nil` | String to partially override "ksflow.fullname" template |
-| singleNamespace | bool | `false` | Restrict Ksflow to operate only in a single namespace (the namespace of the Helm release) by applying Roles and RoleBindings instead of the Cluster equivalents, and start the controller configured to watch the single namespace. Use it in clusters with strict access policy. |
 
 #### Kafka
 

@@ -27,12 +27,6 @@ nameOverride:
 # -- String to fully override "ksflow.fullname" template
 fullnameOverride:
 
-# -- Restrict Ksflow to operate only in a single namespace (the namespace of the
-# Helm release) by applying Roles and RoleBindings instead of the Cluster
-# equivalents, and start the controller configured to watch the single namespace. Use it
-# in clusters with strict access policy.
-singleNamespace: false
-
 kafka:
   # -- Prefix for all Kafka topics
   topicPrefix: "ksflow"
@@ -148,3 +142,6 @@ controller:
 
   # -- [Controller Manager configuration](https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/config/v1alpha1#ControllerManagerConfigurationSpec)
   controllerManager: {}
+
+# -- Extra Kubernetes objects to be managed by the chart
+extraObjects: []

@@ -1,0 +1,95 @@
+# TODO: replace dev-cloudflare-api-token && dev-letsencrypt with dev-selfsigned so that it works without needing cloudflare
+#apiVersion: cert-manager.io/v1
+#kind: Issuer
+#metadata:
+#  name: dev-selfsigned
+#spec:
+#  selfSigned: {}
+
+########################################### ENVIRONMENT_VARIABLES
+
+# DEV_CLOUDFLARE_API_TOKEN="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+# DEV_CLOUDFLARE_EMAIL_ADDRESS="bob@dev.example.com"
+# DEV_CA_DOMAIN_NAME="dev.example.com"
+
+#################################################################
+
+extraObjects:
+# Create external "ACME" Issuer in a restricted namespace
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    name: dev-cloudflare-api-token
+  type: Opaque
+  stringData:
+    api-token: {{ requiredEnv "DEV_CLOUDFLARE_API_TOKEN" | quote }}
+- apiVersion: cert-manager.io/v1
+  kind: Issuer
+  metadata:
+    name: dev-letsencrypt
+  spec:
+    acme:
+      server: https://acme-staging-v02.api.letsencrypt.org/directory
+      email: {{ requiredEnv "DEV_CLOUDFLARE_EMAIL_ADDRESS" | quote }}
+      privateKeySecretRef:
+        name: dev-letsencrypt
+      solvers:
+      - dns01:
+          cloudflare:
+            email: {{ requiredEnv "DEV_CLOUDFLARE_EMAIL_ADDRESS" | quote }}
+            apiTokenSecretRef:
+              name: dev-cloudflare-api-token
+              key: api-token
+# Create a "CA" ClusterIssuer from the external "ACME" issuer -- avoids being rate-limited when signing certs
+- apiVersion: cert-manager.io/v1
+  kind: Certificate
+  metadata:
+    name: dev-ca
+  spec:
+    isCA: true
+    secretName: dev-ca
+    privateKey:
+      algorithm: ECDSA
+      size: 256
+    issuerRef:
+      name: dev-letsencrypt
+      kind: Issuer
+      group: cert-manager.io
+    commonName: {{ requiredEnv "DEV_CA_DOMAIN_NAME" | quote }}
+    dnsNames:
+    - {{ requiredEnv "DEV_CA_DOMAIN_NAME" | quote }}
+- apiVersion: cert-manager.io/v1
+  kind: ClusterIssuer
+  metadata:
+    name: dev-ca
+  spec:
+    ca:
+      secretName: dev-ca
+# Add a CertificateRequestPolicy to allow for creating certificates
+- apiVersion: policy.cert-manager.io/v1alpha1
+  kind: CertificateRequestPolicy
+  metadata:
+    name: dev-ca-kafka
+  spec:
+    allowed:
+      isCA: true
+      dnsNames:
+        required: true
+        values:
+        - "*.kafka.{{ requiredEnv "DEV_CA_DOMAIN_NAME" }}"
+      subject:
+        organizations:
+          values:
+          - cluster.local
+          - cert-manager
+    constraints:
+      privateKey:
+        algorithm: RSA
+        minSize: 4096
+        maxSize: 4096
+    selector:
+      issuerRef:
+        name: dev-ca
+        kind: ClusterIssuer
+        group: cert-manager.io
+

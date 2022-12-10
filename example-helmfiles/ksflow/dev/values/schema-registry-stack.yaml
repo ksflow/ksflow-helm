@@ -4,35 +4,82 @@ resources:
   requests:
     cpu: 100m
 
-# TODO: more stuff
+kafka:
+  zookeeper:
+    enabled: false
+  persistence:
+    enabled: false
+  allowPlaintextListener: false
+  listeners:
+  - "SSL://:9092"
+  - "CONTROLLER://:9093"
+  advertisedListeners:
+  - "SSL://127.0.0.1:9092"
+  interBrokerListenerName: "SSL"
+  allowEveryoneIfNoAclFound: false
+  listenerSecurityProtocolMap: "CONTROLLER:SSL,PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL"
+  extraEnvVars:
+  - name: KAFKA_ENABLE_KRAFT
+    value: "yes"
+  - name: KAFKA_CFG_PROCESS_ROLES
+    value: "broker,controller"
+  - name: KAFKA_CFG_CONTROLLER_LISTENER_NAMES
+    value: "CONTROLLER"
+  - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTERS
+    value: "1@127.0.0.1:9093"
+  - name: KAFKA_CFG_SSL.KEYSTORE.TYPE
+    value: "PKCS12"
+  - name: KAFKA_CFG_SSL.KEYSTORE.LOCATION
+    value: "/certs/keystore.p12"
+  - name: KAFKA_CFG_SSL.KEYSTORE.PASSWORD
+    value: "password"
+  - name: KAFKA_CFG_SSL.KEY.PASSWORD
+    value: "password"
+  - name: KAFKA_CFG_SSL.TRUSTSTORE.TYPE
+    value: "PKCS12"
+  - name: KAFKA_CFG_SSL.TRUSTSTORE.LOCATION
+    value: "/certs/truststore.p12"
+  - name: KAFKA_CFG_SSL.TRUSTSTORE.PASSWORD
+    value: "password"
+  - name: KAFKA_CFG_SSL.ENABLED.PROTOCOLS
+    value: "TLSv1.2"
+  - name: KAFKA_CFG_SSL.CLIENT.AUTH
+    value: "required"
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 500m
 
-extraDeploy:
-- apiVersion: cert-manager.io/v1
-  kind: ClusterIssuer
-  metadata:
-    name: kafka-selfsigned-ca-issuer
-  spec:
-    selfSigned: {}
-- apiVersion: cert-manager.io/v1
-  kind: Certificate
-  metadata:
-    name: kafka-selfsigned-ca
-    namespace: cert-manager
-  spec:
-    isCA: true
-    commonName: kafka-selfsigned-ca
-    secretName: kafka-selfsigned-ca-root-secret
-    privateKey:
-      algorithm: ECDSA
-      size: 256
-    issuerRef:
-      name: kafka-selfsigned-ca-issuer
-      kind: ClusterIssuer
-      group: cert-manager.io
-- apiVersion: cert-manager.io/v1
-  kind: ClusterIssuer
-  metadata:
-    name: kafka-cert-issuer
-  spec:
-    ca:
-      secretName: kafka-selfsigned-ca-root-secret
+# TODO: more stuff
+#
+#extraDeploy:
+#- apiVersion: cert-manager.io/v1
+#  kind: ClusterIssuer
+#  metadata:
+#    name: kafka-selfsigned-ca-issuer
+#  spec:
+#    selfSigned: {}
+#- apiVersion: cert-manager.io/v1
+#  kind: Certificate
+#  metadata:
+#    name: kafka-selfsigned-ca
+#    namespace: cert-manager
+#  spec:
+#    isCA: true
+#    commonName: kafka-selfsigned-ca
+#    secretName: kafka-selfsigned-ca-root-secret
+#    privateKey:
+#      algorithm: ECDSA
+#      size: 256
+#    issuerRef:
+#      name: kafka-selfsigned-ca-issuer
+#      kind: ClusterIssuer
+#      group: cert-manager.io
+#- apiVersion: cert-manager.io/v1
+#  kind: ClusterIssuer
+#  metadata:
+#    name: kafka-cert-issuer
+#  spec:
+#    ca:
+#      secretName: kafka-selfsigned-ca-root-secret

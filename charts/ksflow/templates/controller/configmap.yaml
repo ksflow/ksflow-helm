@@ -9,9 +9,6 @@ data:
   controller-config.yaml: |
     apiVersion: ksflow.io/v1alpha1
     kind: KsflowConfig
-    {{- if .Values.singleNamespace }}
-    cacheNamespace: {{ .Release.Namespace | quote }}
-    {{- end }}
     kafka:
       topicPrefix: {{ .Values.kafka.topicPrefix | quote }}
       configs:
