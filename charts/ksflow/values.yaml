@@ -1,0 +1,131 @@
+## This file was modified from https://github.com/argoproj/argo-helm/blob/34a33c967f83622b086de824b0e67c83360de791/charts/argo-workflows/values.yaml (apache 2.0 license)
+
+images:
+  # -- Common tag for Ksflow images. Defaults to `.Chart.AppVersion`.
+  tag: ""
+  # -- imagePullPolicy to apply to all containers
+  pullPolicy: Always
+  # -- Secrets with credentials to pull images from a private registry
+  pullSecrets: []
+  # - name: ksflow-pull-secret
+
+## Custom resource configuration
+crds:
+  # -- Install and upgrade CRDs
+  install: true
+  # -- Keep CRDs on chart uninstall
+  keep: true
+  # -- Annotations to be added to all CRDs
+  annotations: {}
+
+# -- Create clusterroles that extend existing clusterroles to interact with ksflow crds (ref: [Aggregated ClusterRoles](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#aggregated-clusterroles))
+createAggregateRoles: true
+
+# -- String to partially override "ksflow.fullname" template
+nameOverride:
+
+# -- String to fully override "ksflow.fullname" template
+fullnameOverride:
+
+controller:
+  image:
+    # -- Registry to use for the controller
+    registry: docker.io
+    # -- Registry to use for the controller
+    repository: ksflow/ksflow
+    # -- Image tag for the ksflow controller. Defaults to `.Values.images.tag`.
+    tag: ""
+
+  rbac:
+    # -- Adds Role and RoleBinding for the controller.
+    create: true
+
+  # -- deploymentAnnotations is an optional map of annotations to be applied to the controller Deployment
+  deploymentAnnotations: {}
+  # -- podAnnotations is an optional map of annotations to be applied to the controller Pods
+  podAnnotations: {}
+  # -- Optional labels to add to the controller pods
+  podLabels: {}
+  # -- SecurityContext to set on the controller pods
+  podSecurityContext: {}
+  # -- the controller container's securityContext
+  # @default -- See [values.yaml]
+  securityContext:
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+      - ALL
+  serviceAccount:
+    # -- Create a service account for the controller
+    create: true
+    # -- Service account name
+    name: ""
+    # -- Annotations applied to created service account
+    annotations: {}
+
+  # -- Controller name string
+  name: controller
+
+  # -- Resource limits and requests for the controller
+  resources: {}
+
+  # -- Configure liveness [probe] for the controller
+  # @default -- See [values.yaml]
+  livenessProbe:
+    httpGet:
+      port: 8081
+      path: /healthz
+    failureThreshold: 3
+    initialDelaySeconds: 30
+    periodSeconds: 30
+    timeoutSeconds: 10
+
+  # -- Extra environment variables to provide to the controller container
+  extraEnv: []
+  # - name: FOO
+  #   value: "bar"
+
+  # -- Extra arguments to be added to the controller
+  extraArgs: []
+  # -- Additional volume mounts to the controller main container
+  extraVolumeMounts: []
+  # -- Additional volumes to the controller pod
+  extraVolumes: []
+  # -- The number of controller pods to run
+  replicas: 1
+
+  pdb:
+    # -- Configure [Pod Disruption Budget] for the controller pods
+    enabled: false
+    # minAvailable: 1
+    # maxUnavailable: 1
+
+  # -- [Node selector]
+  nodeSelector:
+    kubernetes.io/os: linux
+  # -- [Tolerations] for use with node taints
+  tolerations: []
+  # -- Assign custom [affinity] rules
+  affinity: {}
+
+  # -- Assign custom [Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/)
+  # rules to the controller.
+  # If labelSelector is left out, it will default to the labelSelector configuration of the deployment
+  topologySpreadConstraints: []
+  # - maxSkew: 1
+  #   topologyKey: topology.kubernetes.io/zone
+  #   whenUnsatisfiable: DoNotSchedule
+
+  # -- Leverage a PriorityClass to ensure your pods survive resource shortages (ref: [Pod Priority Preemption](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/))
+  priorityClassName: ""
+
+  # -- Extra containers to be added to the controller deployment
+  extraContainers: []
+
+  # -- [Controller Manager configuration](https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/config/v1alpha1#ControllerManagerConfigurationSpec)
+  controllerManager: {}
+
+# -- Extra Kubernetes objects to be managed by the chart
+extraObjects: []

@@ -1,0 +1,87 @@
+# This file was modified from https://github.com/argoproj/argo-helm/blob/34a33c967f83622b086de824b0e67c83360de791/charts/argo-workflows/templates/controller/workflow-aggregate-roles.yaml  (apache 2.0 license)
+{{- if .Values.createAggregateRoles }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ template "ksflow.fullname" . }}-view
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+rules:
+- apiGroups:
+  - ksflow.io
+  resources:
+  - kafkaacls
+  - kafkaacls/finalizers
+  - kafkaadminclientconfigs
+  - kafkaadminclientconfigs/finalizers
+  - kafkaconsumerconfigs
+  - kafkaconsumerconfigs/finalizers
+  - kafkaproducerconfigs
+  - kafkaproducerconfigs/finalizers
+  - kafkatopics
+  - kafkatopics/finalizers
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ template "ksflow.fullname" . }}-edit
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+rules:
+- apiGroups:
+  - ksflow.io
+  resources:
+    - kafkaacls
+    - kafkaacls/finalizers
+    - kafkaadminclientconfigs
+    - kafkaadminclientconfigs/finalizers
+    - kafkaconsumerconfigs
+    - kafkaconsumerconfigs/finalizers
+    - kafkaproducerconfigs
+    - kafkaproducerconfigs/finalizers
+    - kafkatopics
+    - kafkatopics/finalizers
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ template "ksflow.fullname" . }}-admin
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+rules:
+- apiGroups:
+  - ksflow.io
+  resources:
+    - kafkaacls
+    - kafkaacls/finalizers
+    - kafkaadminclientconfigs
+    - kafkaadminclientconfigs/finalizers
+    - kafkaconsumerconfigs
+    - kafkaconsumerconfigs/finalizers
+    - kafkaproducerconfigs
+    - kafkaproducerconfigs/finalizers
+    - kafkatopics
+    - kafkatopics/finalizers
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+{{- end }}

@@ -1,0 +1,11 @@
+# This file was modified from https://github.com/argoproj/argo-helm/blob/34a33c967f83622b086de824b0e67c83360de791/charts/argo-workflows/templates/controller/workflow-controller-config-map.yaml  (apache 2.0 license)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "ksflow.controller.fullname" . }}
+  labels:
+    {{- include "ksflow.labels" (dict "context" . "component" .Values.controller.name "name" "cm") | nindent 4 }}
+data:
+  controller-config.yaml: |
+    apiVersion: ksflow.io/v1alpha1
+    kind: KsflowConfig

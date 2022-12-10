@@ -1,0 +1,17 @@
+# This file was modified from https://github.com/argoproj/argo-helm/blob/34a33c967f83622b086de824b0e67c83360de791/charts/argo-workflows/templates/controller/workflow-controller-crb.yaml  (apache 2.0 license)
+{{- if .Values.controller.rbac.create }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ template "ksflow.controller.fullname" . }}
+  labels:
+    {{- include "ksflow.labels" (dict "context" . "component" .Values.controller.name "name" .Values.controller.name) | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ template "ksflow.controller.fullname" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "ksflow.controllerServiceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+{{- end }}

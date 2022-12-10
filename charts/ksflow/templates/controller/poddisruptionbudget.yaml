@@ -1,0 +1,20 @@
+# This file was modified from https://github.com/argoproj/argo-helm/blob/34a33c967f83622b086de824b0e67c83360de791/charts/argo-workflows/templates/controller/workflow-controller-deployment-pdb.yaml  (apache 2.0 license)
+{{- if .Values.controller.pdb.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ template "ksflow.controller.fullname" . }}
+  labels:
+    {{- include "ksflow.labels" (dict "context" . "component" .Values.controller.name "name" .Values.controller.name) | nindent 4 }}
+spec:
+  {{- if .Values.controller.pdb.minAvailable }}
+  minAvailable: {{ .Values.controller.pdb.minAvailable }}
+  {{- else if .Values.controller.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.controller.pdb.maxUnavailable }}
+  {{- else }}
+  minAvailable: 0
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "ksflow.selectorLabels" (dict "context" . "name" .Values.controller.name) | nindent 6 }}
+{{- end }}
