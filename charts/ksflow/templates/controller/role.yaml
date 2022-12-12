@@ -10,8 +10,8 @@ rules:
 - apiGroups:
   - ksflow.io
   resources:
-  - clusterkafkaclusterconfigs
-  - clusterkafkaclusterconfigs/status
+  - clusterkafkaconfigs
+  - clusterkafkaconfigs/status
   - kafkaacls
   - kafkaacls/status
   - kafkaadminclientconfigs

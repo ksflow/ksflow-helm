@@ -39,7 +39,7 @@ spec:
         image: "{{ .Values.controller.image.registry }}/{{ .Values.controller.image.repository }}:{{ default (include "ksflow.defaultTag" .) .Values.controller.image.tag }}"
         imagePullPolicy: {{ .Values.images.pullPolicy }}
         args:
-          - "--config=/etc/ksflow/controller-config.yaml"
+        - "--config=/etc/ksflow/controller-config.yaml"
         {{- with .Values.controller.extraArgs }}
           {{- toYaml . | nindent 10 }}
         {{- end }}
@@ -51,6 +51,8 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.namespace
+        - name: CONTAINER_IMAGE
+          value: "{{ .Values.controller.image.registry }}/{{ .Values.controller.image.repository }}:{{ default (include "ksflow.defaultTag" .) .Values.controller.image.tag }}"
         {{- with .Values.controller.extraEnv }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
