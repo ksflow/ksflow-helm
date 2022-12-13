@@ -2,7 +2,7 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: clusterkafkaconfigs.ksflow.io
+  name: kafkaconfigs.ksflow.io
   annotations:
     {{- if .Values.crds.keep }}
     "helm.sh/resource-policy": keep
@@ -13,12 +13,12 @@ metadata:
 spec:
   group: ksflow.io
   names:
-    kind: ClusterKafkaConfig
-    listKind: ClusterKafkaConfigList
-    plural: clusterkafkaconfigs
+    kind: KafkaConfig
+    listKind: KafkaConfigList
+    plural: kafkaconfigs
     shortNames:
-    - ckc
-    singular: clusterkafkaconfig
+    - kc
+    singular: kafkaconfig
   scope: Namespaced
   versions:
   - name: v1alpha1

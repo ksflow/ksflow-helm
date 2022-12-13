@@ -10,16 +10,10 @@ rules:
 - apiGroups:
   - ksflow.io
   resources:
-  - clusterkafkaconfigs
-  - clusterkafkaconfigs/status
   - kafkaacls
   - kafkaacls/status
-  - kafkaadminclientconfigs
-  - kafkaadminclientconfigs/status
-  - kafkaconsumerconfigs
-  - kafkaconsumerconfigs/status
-  - kafkaproducerconfigs
-  - kafkaproducerconfigs/status
+  - kafkaconfigs
+  - kafkaconfigs/status
   - kafkatopics
   - kafkatopics/status
   verbs:

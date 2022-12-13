@@ -12,12 +12,8 @@ rules:
   resources:
   - kafkaacls
   - kafkaacls/finalizers
-  - kafkaadminclientconfigs
-  - kafkaadminclientconfigs/finalizers
-  - kafkaconsumerconfigs
-  - kafkaconsumerconfigs/finalizers
-  - kafkaproducerconfigs
-  - kafkaproducerconfigs/finalizers
+  - kafkaconfigs
+  - kafkaconfigs/finalizers
   - kafkatopics
   - kafkatopics/finalizers
   verbs:
@@ -37,12 +33,8 @@ rules:
   resources:
     - kafkaacls
     - kafkaacls/finalizers
-    - kafkaadminclientconfigs
-    - kafkaadminclientconfigs/finalizers
-    - kafkaconsumerconfigs
-    - kafkaconsumerconfigs/finalizers
-    - kafkaproducerconfigs
-    - kafkaproducerconfigs/finalizers
+    - kafkaconfigs
+    - kafkaconfigs/finalizers
     - kafkatopics
     - kafkatopics/finalizers
   verbs:
@@ -67,12 +59,8 @@ rules:
   resources:
     - kafkaacls
     - kafkaacls/finalizers
-    - kafkaadminclientconfigs
-    - kafkaadminclientconfigs/finalizers
-    - kafkaconsumerconfigs
-    - kafkaconsumerconfigs/finalizers
-    - kafkaproducerconfigs
-    - kafkaproducerconfigs/finalizers
+    - kafkaconfigs
+    - kafkaconfigs/finalizers
     - kafkatopics
     - kafkatopics/finalizers
   verbs:
