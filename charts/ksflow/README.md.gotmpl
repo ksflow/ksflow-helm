@@ -2,9 +2,21 @@
 
 Helm chart for [ksflow](https://github.com/ksflow/ksflow).
 
+```yaml
+# Example values-example.yaml with required values
+controller:
+  config:
+    kafka:
+      bootstrapServers:
+      - my-kafka-broker-1:9092
+      - my-kafka-broker-2:9092
+      tls:
+        secret: my-ksflow-controller-kafka-certs
+```
+
 ```bash
 helm repo add ksflow https://ksflow.github.io/ksflow-helm
-helm install ksflow ksflow/ksflow
+helm install ksflow ksflow/ksflow -f ./values-example.yaml
 ```
 
 ## Parameters
