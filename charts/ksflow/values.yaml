@@ -129,13 +129,13 @@ controller:
 
   config:
     kafka:
-      # -- REQUIRED. List of initial Kafka brokers to connect to
+      # -- **REQUIRED**. List of initial Kafka brokers to connect to
       # Listeners on these ports must be support the "SSL" protocol (what Kafka calls mTLS)
       bootstrapServers:
       # - kb1:9092
       # - kb2:9092
       tls:
-        # -- REQUIRED. Secret name containing the tls certificates
+        # -- **REQUIRED**. Secret name containing the tls certificates
         secret:
         # -- Where in secret to find the file holding the client-side TLS certificate to use
         cert: "tls.crt"
