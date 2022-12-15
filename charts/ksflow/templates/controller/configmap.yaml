@@ -9,3 +9,12 @@ data:
   controller-config.yaml: |
     apiVersion: ksflow.io/v1alpha1
     kind: KsflowConfig
+    kafka:
+      bootstrapServers:
+      {{- with required "A valid .Values.controller.config.kafka.bootstrapServers required" .Values.controller.config.kafka.bootstrapServers }}
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
+      tls:
+        cert: "/kafka-certs/{{ .Values.controller.config.kafka.tls.cert }}"
+        key: "/kafka-certs/{{ .Values.controller.config.kafka.tls.key }}"
+        ca: "/kafka-certs/{{ .Values.controller.config.kafka.tls.ca }}"

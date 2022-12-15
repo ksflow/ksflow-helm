@@ -29,6 +29,11 @@ helm install ksflow ksflow/ksflow
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | controller.affinity | object | `{}` | Assign custom [affinity] rules |
+| controller.config.kafka.bootstrapServers | string | `nil` | REQUIRED. List of initial Kafka brokers to connect to Listeners on these ports must be support the "SSL" protocol (what Kafka calls mTLS) |
+| controller.config.kafka.tls.ca | string | `"ca.crt"` | Where in secret to find the file containing certificate authority certificates to use in verifying a presented server certificate |
+| controller.config.kafka.tls.cert | string | `"tls.crt"` | Where in secret to find the file holding the client-side TLS certificate to use |
+| controller.config.kafka.tls.key | string | `"tls.key"` | Where in secret to find the file holding the client’s private key |
+| controller.config.kafka.tls.secret | string | `nil` | REQUIRED. Secret name containing the tls certificates |
 | controller.controllerManager | object | `{}` | [Controller Manager configuration](https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/config/v1alpha1#ControllerManagerConfigurationSpec) |
 | controller.deploymentAnnotations | object | `{}` | deploymentAnnotations is an optional map of annotations to be applied to the controller Deployment |
 | controller.extraArgs | list | `[]` | Extra arguments to be added to the controller |

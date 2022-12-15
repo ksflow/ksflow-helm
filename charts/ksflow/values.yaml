@@ -127,5 +127,23 @@ controller:
   # -- [Controller Manager configuration](https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/config/v1alpha1#ControllerManagerConfigurationSpec)
   controllerManager: {}
 
+  config:
+    kafka:
+      # -- REQUIRED. List of initial Kafka brokers to connect to
+      # Listeners on these ports must be support the "SSL" protocol (what Kafka calls mTLS)
+      bootstrapServers:
+      # - kb1:9092
+      # - kb2:9092
+      tls:
+        # -- REQUIRED. Secret name containing the tls certificates
+        secret:
+        # -- Where in secret to find the file holding the client-side TLS certificate to use
+        cert: "tls.crt"
+        # -- Where in secret to find the file holding the client’s private key
+        key: "tls.key"
+        # -- Where in secret to find the file containing certificate authority certificates to use
+        # in verifying a presented server certificate
+        ca: "ca.crt"
+
 # -- Extra Kubernetes objects to be managed by the chart
 extraObjects: []

@@ -1,5 +1,5 @@
-# This file was modified from https://github.com/argoproj/argo-helm/blob/34a33c967f83622b086de824b0e67c83360de791/charts/argo-workflows/templates/controller/workflow-controller-deployment-pdb.yaml  (apache 2.0 license)
 {{- if .Values.controller.pdb.enabled }}
+# This file was modified from https://github.com/argoproj/argo-helm/blob/34a33c967f83622b086de824b0e67c83360de791/charts/argo-workflows/templates/controller/workflow-controller-deployment-pdb.yaml  (apache 2.0 license)
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
