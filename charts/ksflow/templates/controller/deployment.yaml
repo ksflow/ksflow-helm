@@ -51,8 +51,6 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.namespace
-        - name: CONTAINER_IMAGE
-          value: "{{ .Values.controller.image.registry }}/{{ .Values.controller.image.repository }}:{{ default (include "ksflow.defaultTag" .) .Values.controller.image.tag }}"
         {{- with .Values.controller.extraEnv }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -81,7 +79,7 @@ spec:
           name: {{ template "ksflow.controller.fullname" . }}
         name: controller-config
       - secret:
-          secretName: {{ required "A valid .Values.controller.config.kafka.tls.secret required" .Values.controller.config.kafka.tls.secret | quote }}
+          secretName: {{ required "A valid .Values.controller.kafkaConnection.tls.secret required" .Values.controller.kafkaConnection.tls.secret | quote }}
         name: kafka-certs
       {{- with .Values.controller.extraVolumes }}
       {{- toYaml . | nindent 6 }}
