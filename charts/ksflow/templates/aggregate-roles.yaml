@@ -10,8 +10,8 @@ rules:
 - apiGroups:
   - ksflow.io
   resources:
-  - kafkaconfigs
-  - kafkaconfigs/finalizers
+  - clusterkafkatopics
+  - clusterkafkatopics/finalizers
   - kafkatopics
   - kafkatopics/finalizers
   verbs:
@@ -29,10 +29,10 @@ rules:
 - apiGroups:
   - ksflow.io
   resources:
-    - kafkaconfigs
-    - kafkaconfigs/finalizers
-    - kafkatopics
-    - kafkatopics/finalizers
+  - clusterkafkatopics
+  - clusterkafkatopics/finalizers
+  - kafkatopics
+  - kafkatopics/finalizers
   verbs:
   - create
   - delete
@@ -53,10 +53,10 @@ rules:
 - apiGroups:
   - ksflow.io
   resources:
-    - kafkaconfigs
-    - kafkaconfigs/finalizers
-    - kafkatopics
-    - kafkatopics/finalizers
+  - clusterkafkatopics
+  - clusterkafkatopics/finalizers
+  - kafkatopics
+  - kafkatopics/finalizers
   verbs:
   - create
   - delete

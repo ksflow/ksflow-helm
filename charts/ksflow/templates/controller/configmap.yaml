@@ -9,7 +9,7 @@ data:
   controller-config.yaml: |
     apiVersion: ksflow.io/v1alpha1
     kind: KsflowConfig
-    kafka:
+    kafkaConnection:
       bootstrapServers:
       {{- with required "A valid .Values.controller.kafkaConnection.bootstrapServers required" .Values.controller.kafkaConnection.bootstrapServers }}
       {{- toYaml . | nindent 6 }}
@@ -18,12 +18,19 @@ data:
         cert: "/kafka-certs/{{ .Values.controller.kafkaConnection.tls.cert }}"
         key: "/kafka-certs/{{ .Values.controller.kafkaConnection.tls.key }}"
         ca: "/kafka-certs/{{ .Values.controller.kafkaConnection.tls.ca }}"
-    templates:
-      {{- if .Values.controller.kafkaTopicDefaults }}
-      kafkaTopic: |
-        reclaimPolicy: {{ .Values.controller.kafkaTopicDefaults.reclaimPolicy }}
-        partitions: {{ .Values.controller.kafkaTopicDefaults.partitions }}
-        replicationFactor: {{ .Values.controller.kafkaTopicDefaults.replicationFactor }}
-        configs:
-          {{- toYaml .Values.controller.kafkaTopicDefaults.configs | nindent 10 }}
+    {{- if .Values.controller.kafkaTopicDefaults }}
+    kafkaTopicDefaults:
+      {{- if .Values.controller.kafkaTopicDefaults.reclaimPolicy }}
+      reclaimPolicy: {{ .Values.controller.kafkaTopicDefaults.reclaimPolicy }}
       {{- end }}
+      {{- if .Values.controller.kafkaTopicDefaults.partitions }}
+      partitions: {{ .Values.controller.kafkaTopicDefaults.partitions }}
+      {{- end }}
+      {{- if .Values.controller.kafkaTopicDefaults.replicationFactor }}
+      replicationFactor: {{ .Values.controller.kafkaTopicDefaults.replicationFactor }}
+      {{- end }}
+      {{- if .Values.controller.kafkaTopicDefaults.configs }}
+      configs:
+        {{- toYaml .Values.controller.kafkaTopicDefaults.configs | nindent 10 }}
+      {{- end }}
+    {{- end }}
