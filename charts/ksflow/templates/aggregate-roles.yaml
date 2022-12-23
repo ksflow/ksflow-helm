@@ -10,8 +10,6 @@ rules:
 - apiGroups:
   - ksflow.io
   resources:
-  - clusterkafkatopics
-  - clusterkafkatopics/finalizers
   - kafkatopics
   - kafkatopics/finalizers
   verbs:
@@ -29,8 +27,6 @@ rules:
 - apiGroups:
   - ksflow.io
   resources:
-  - clusterkafkatopics
-  - clusterkafkatopics/finalizers
   - kafkatopics
   - kafkatopics/finalizers
   verbs:
@@ -53,8 +49,6 @@ rules:
 - apiGroups:
   - ksflow.io
   resources:
-  - clusterkafkatopics
-  - clusterkafkatopics/finalizers
   - kafkatopics
   - kafkatopics/finalizers
   verbs:

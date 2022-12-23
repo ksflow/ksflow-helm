@@ -28,9 +28,6 @@ spec:
     - jsonPath: .status.replicationFactor
       name: Replicas
       type: string
-    - jsonPath: .status.reclaimPolicy
-      name: ReclaimPolicy
-      type: string
     - jsonPath: .status.phase
       name: Status
       type: string
@@ -71,13 +68,6 @@ spec:
                 format: int32
                 minimum: 1
                 type: integer
-              reclaimPolicy:
-                description: ReclaimPolicy defines what should happen to the underlying
-                  kafka topic if the KafkaTopic is deleted.
-                enum:
-                - Delete
-                - Retain
-                type: string
               replicationFactor:
                 description: ReplicationFactor is the number of replicas for each
                   of the topic's partitions.
@@ -111,11 +101,6 @@ spec:
                 - Error
                 type: string
               reason:
-                type: string
-              reclaimPolicy:
-                enum:
-                - Delete
-                - Retain
                 type: string
               replicationFactor:
                 description: ReplicationFactor is the number of replicas for each

@@ -146,13 +146,11 @@ controller:
 
   # Default values for both KafkaTopics and KafkaClusterTopics
   kafkaTopicDefaults:
-    # -- Default reclaimPolicy for KafkaTopics and ClusterKafkaTopics
-    reclaimPolicy: "Delete"
-    # -- Default partitions for KafkaTopics and ClusterKafkaTopics
+    # -- Default partitions for KafkaTopics
     partitions: 1
-    # -- Default replication factor for KafkaTopics and ClusterKafkaTopics
+    # -- Default replication factor for KafkaTopics
     replicationFactor: 1
-    # -- Default configs for KafkaTopics and ClusterKafkaTopics
+    # -- Default configs for KafkaTopics
     configs: {}
 
 # -- Extra Kubernetes objects to be managed by the chart

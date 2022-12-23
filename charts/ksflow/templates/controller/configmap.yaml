@@ -20,9 +20,6 @@ data:
         ca: "/kafka-certs/{{ .Values.controller.kafkaConnection.tls.ca }}"
     {{- if .Values.controller.kafkaTopicDefaults }}
     kafkaTopicDefaults:
-      {{- if .Values.controller.kafkaTopicDefaults.reclaimPolicy }}
-      reclaimPolicy: {{ .Values.controller.kafkaTopicDefaults.reclaimPolicy }}
-      {{- end }}
       {{- if .Values.controller.kafkaTopicDefaults.partitions }}
       partitions: {{ .Values.controller.kafkaTopicDefaults.partitions }}
       {{- end }}
