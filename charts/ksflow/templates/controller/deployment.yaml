@@ -60,9 +60,6 @@ spec:
         - mountPath: /etc/ksflow
           name: controller-config
           readOnly: true
-        - mountPath: /kafka-certs
-          name: kafka-certs
-          readOnly: true
         {{- with .Values.controller.extraVolumeMounts }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -78,9 +75,6 @@ spec:
       - configMap:
           name: {{ template "ksflow.controller.fullname" . }}
         name: controller-config
-      - secret:
-          secretName: {{ required "A valid .Values.controller.kafkaConnection.tls.secret required" .Values.controller.kafkaConnection.tls.secret | quote }}
-        name: kafka-certs
       {{- with .Values.controller.extraVolumes }}
       {{- toYaml . | nindent 6 }}
       {{- end }}

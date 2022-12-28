@@ -9,13 +9,6 @@ Create controller name and version as used by the chart label.
 {{- end -}}
 
 {{/*
-Create jks-password secret name and version as used by the chart label.
-*/}}
-{{- define "ksflow.jksPassword.fullname" -}}
-{{- printf "%s-jks-pwd" (include "ksflow.fullname" .) | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{/*
 Expand the name of the chart.
 */}}
 {{- define "ksflow.name" -}}

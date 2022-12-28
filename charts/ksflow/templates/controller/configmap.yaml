@@ -11,23 +11,19 @@ data:
     kind: KsflowConfig
     kafkaConnection:
       bootstrapServers:
-      {{- with required "A valid .Values.controller.kafkaConnection.bootstrapServers required" .Values.controller.kafkaConnection.bootstrapServers }}
+      {{- with required ".Values.kafka.bootstrapServers is required" .Values.kafka.bootstrapServers }}
       {{- toYaml . | nindent 6 }}
       {{- end }}
-      tls:
-        cert: "/kafka-certs/{{ .Values.controller.kafkaConnection.tls.cert }}"
-        key: "/kafka-certs/{{ .Values.controller.kafkaConnection.tls.key }}"
-        ca: "/kafka-certs/{{ .Values.controller.kafkaConnection.tls.ca }}"
-    {{- if .Values.controller.kafkaTopicDefaults }}
+    {{- if .Values.kafka.topicDefaults }}
     kafkaTopicDefaults:
-      {{- if .Values.controller.kafkaTopicDefaults.partitions }}
-      partitions: {{ .Values.controller.kafkaTopicDefaults.partitions }}
+      {{- if .Values.kafka.topicDefaults.partitions }}
+      partitions: {{ .Values.kafka.topicDefaults.partitions }}
       {{- end }}
-      {{- if .Values.controller.kafkaTopicDefaults.replicationFactor }}
-      replicationFactor: {{ .Values.controller.kafkaTopicDefaults.replicationFactor }}
+      {{- if .Values.kafka.topicDefaults.replicationFactor }}
+      replicationFactor: {{ .Values.kafka.topicDefaults.replicationFactor }}
       {{- end }}
-      {{- if .Values.controller.kafkaTopicDefaults.configs }}
+      {{- if .Values.kafka.topicDefaults.configs }}
       configs:
-        {{- toYaml .Values.controller.kafkaTopicDefaults.configs | nindent 10 }}
+        {{- toYaml .Values.kafka.topicDefaults.configs | nindent 10 }}
       {{- end }}
     {{- end }}
