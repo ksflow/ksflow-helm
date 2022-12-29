@@ -137,11 +137,22 @@ kafka:
   # - kb1.kafka:9092
   # - kb2.kafka:9092
 
-  # Default values for KafkaTopics
-  topicDefaults:
-    # -- Default partitions for KafkaTopics
-    partitions: # 1
-    # -- Default replication factor for KafkaTopics
-    replicationFactor: # 1
-    # -- Default configs for KafkaTopics
-    configs: {}
+  # Values for KafkaTopics
+  kafkaTopic:
+    # -- Go Template to generate a unique kafka topic from a KafkaTopic's namespaced name.
+    # For topic naming see: https://kafka.apache.org/documentation/#multitenancy-topic-naming
+    nameTemplate: "{{ .Namespace }}.{{ .Name }}"
+    # Default values for KafkaTopics
+    defaults:
+      # -- Default partitions for KafkaTopics
+      partitions: # 1
+      # -- Default replication factor for KafkaTopics
+      replicationFactor: # 1
+      # -- Default configs for KafkaTopics
+      configs: {}
+
+  # Values for KafkaUser
+  kafkaUser:
+    # -- Go Template to generate a unique kafka user from a KafkaUser's namespaced name.
+    # For user naming see: https://docs.confluent.io/platform/current/kafka/authorization.html#principal
+    nameTemplate: "CN={{ .Name }}.{{ .Namespace }}.kafkauser"

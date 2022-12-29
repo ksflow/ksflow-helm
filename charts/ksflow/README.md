@@ -30,11 +30,18 @@ helm install ksflow ksflow/ksflow -f ./values-example.yaml
 | images.pullPolicy | string | `"Always"` | imagePullPolicy to apply to all containers |
 | images.pullSecrets | list | `[]` | Secrets with credentials to pull images from a private registry |
 | images.tag | string | `""` | Common tag for Ksflow images. Defaults to `.Chart.AppVersion`. |
-| kafka.bootstrapServers | string | `nil` | **REQUIRED**. List of initial Kafka brokers to connect to, see [kafka config's bootstrap.servers](https://kafka.apache.org/documentation/#adminclientconfigs_bootstrap.servers) |
-| kafka.topicDefaults.configs | object | `{}` | Default configs for KafkaTopics |
-| kafka.topicDefaults.partitions | string | `nil` | Default partitions for KafkaTopics |
-| kafka.topicDefaults.replicationFactor | string | `nil` | Default replication factor for KafkaTopics |
 | nameOverride | string | `nil` | String to partially override "ksflow.fullname" template |
+
+#### Kafka
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| kafka.bootstrapServers | string | `nil` | **REQUIRED**. List of initial Kafka brokers to connect to, see [kafka config's bootstrap.servers](https://kafka.apache.org/documentation/#adminclientconfigs_bootstrap.servers) |
+| kafka.kafkaTopic.defaults.configs | object | `{}` | Default configs for KafkaTopics |
+| kafka.kafkaTopic.defaults.partitions | string | `nil` | Default partitions for KafkaTopics |
+| kafka.kafkaTopic.defaults.replicationFactor | string | `nil` | Default replication factor for KafkaTopics |
+| kafka.kafkaTopic.nameTemplate | string | `"{{ .Namespace }}.{{ .Name }}"` | Go Template to generate a unique kafka topic from a KafkaTopic's namespaced name. For topic naming see: https://kafka.apache.org/documentation/#multitenancy-topic-naming |
+| kafka.kafkaUser.nameTemplate | string | `"CN={{ .Name }}.{{ .Namespace }}.kafkauser"` | Go Template to generate a unique kafka user from a KafkaUser's namespaced name. For user naming see: https://docs.confluent.io/platform/current/kafka/authorization.html#principal |
 
 #### Controller
 

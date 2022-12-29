@@ -9,21 +9,25 @@ data:
   controller-config.yaml: |
     apiVersion: ksflow.io/v1alpha1
     kind: KsflowConfig
-    kafkaConnection:
-      bootstrapServers:
-      {{- with required ".Values.kafka.bootstrapServers is required" .Values.kafka.bootstrapServers }}
-      {{- toYaml . | nindent 6 }}
+    kafkaTopic:
+      nameTemplate: {{ .Values.kafka.kafkaTopic.nameTemplate | quote }}
+      kafkaConnection:
+        bootstrapServers:
+        {{- with required ".Values.kafka.bootstrapServers is required" .Values.kafka.bootstrapServers }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- if .Values.kafka.kafkaTopic.defaults }}
+      defaults:
+        {{- if .Values.kafka.kafkaTopic.defaults.partitions }}
+        partitions: {{ .Values.kafka.kafkaTopic.defaults.partitions }}
+        {{- end }}
+        {{- if .Values.kafka.kafkaTopic.defaults.replicationFactor }}
+        replicationFactor: {{ .Values.kafka.kafkaTopic.defaults.replicationFactor }}
+        {{- end }}
+        {{- if .Values.kafka.kafkaTopic.defaults.configs }}
+        configs:
+          {{- toYaml .Values.kafka.kafkaTopic.defaults.configs | nindent 10 }}
+        {{- end }}
       {{- end }}
-    {{- if .Values.kafka.topicDefaults }}
-    kafkaTopicDefaults:
-      {{- if .Values.kafka.topicDefaults.partitions }}
-      partitions: {{ .Values.kafka.topicDefaults.partitions }}
-      {{- end }}
-      {{- if .Values.kafka.topicDefaults.replicationFactor }}
-      replicationFactor: {{ .Values.kafka.topicDefaults.replicationFactor }}
-      {{- end }}
-      {{- if .Values.kafka.topicDefaults.configs }}
-      configs:
-        {{- toYaml .Values.kafka.topicDefaults.configs | nindent 10 }}
-      {{- end }}
-    {{- end }}
+    kafkaUser:
+      nameTemplate: {{ .Values.kafka.kafkaUser.nameTemplate | quote }}
