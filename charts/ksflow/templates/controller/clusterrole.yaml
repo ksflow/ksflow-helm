@@ -10,8 +10,8 @@ rules:
 - apiGroups:
   - ksflow.io
   resources:
-  - kafkaconfigs
-  - kafkaconfigs/status
+  - kafkausers
+  - kafkausers/status
   - kafkatopics
   - kafkatopics/status
   verbs:

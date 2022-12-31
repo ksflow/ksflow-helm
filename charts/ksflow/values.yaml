@@ -154,5 +154,9 @@ kafka:
   # Values for KafkaUser
   kafkaUser:
     # -- Go Template to generate a unique kafka user from a KafkaUser's namespaced name.
-    # For user naming see: https://docs.confluent.io/platform/current/kafka/authorization.html#principal
     nameTemplate: "CN={{ .Name }}.{{ .Namespace }}.kafkauser"
+
+  # Values for KafkaSchema
+  kafkaSchema:
+    # -- Go Template to generate a unique kafka schema from a KafkaSchema's namespaced name.
+    nameTemplate: "{{ .Namespace }}.{{ .Name }}"

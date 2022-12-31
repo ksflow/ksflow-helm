@@ -31,3 +31,5 @@ data:
       {{- end }}
     kafkaUser:
       nameTemplate: {{ .Values.kafka.kafkaUser.nameTemplate | quote }}
+    kafkaSchema:
+      nameTemplate: {{ .Values.kafka.kafkaSchema.nameTemplate | quote }}
